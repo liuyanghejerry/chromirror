@@ -61,8 +61,8 @@ function closeWeb(child) {
 }
 
 function run() {
-  lunchWeb();
-  lunchJobs();
+  setTimeout(lunchWeb, 1000);
+  setTimeout(lunchJobs, 2000);
 }
 
 run();
