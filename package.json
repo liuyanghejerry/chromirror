@@ -1,0 +1,20 @@
+{
+  "name": "chromirror",
+  "version": "0.0.1",
+  "description": "Chrome Browser installer mirror",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chrome",
+    "mirror"
+  ],
+  "author": "liuyanghejerry",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.13.3",
+    "later": "^1.2.0"
+  }
+}
