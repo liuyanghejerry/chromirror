@@ -7,6 +7,8 @@ debugInfo.log = console.info.bind(console);
 var debugError = require('debug')('chromirror:web');
 debugError.log = console.error.bind(console);
 
+var path = require('path');
+
 debugInfo('web interface lunched.');
 
 function hookMessage() {
@@ -23,7 +25,7 @@ hookMessage();
 function run() {
   var express = require('express');
   var app = express();
-  express.static('./public');
+  express.static(path.join(__dirname, './public'));
 
   app.get('/', function(req, res) {
     res.send('hello world');
