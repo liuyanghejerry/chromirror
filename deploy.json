@@ -1,0 +1,14 @@
+{
+  "apps" : [
+    {
+      "name": "chromirror",
+      "script": "index.js",
+      "env": {
+      },
+      "env_production" : {
+        "NODE_ENV": "production"
+      },
+      "autorestart": true
+    }
+  ]
+}
