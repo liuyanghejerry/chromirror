@@ -40,4 +40,6 @@ function download() {
   });
 }
 
-download();
+module.exports = {
+  download: download,
+};

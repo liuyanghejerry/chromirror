@@ -9,6 +9,9 @@ debugError.log = console.error.bind(console);
 
 debugInfo('job runner lunched.');
 
+var later = require('later');
+var downloader = require('./downloader.js');
+
 function hookMessage() {
   process.on('message', function(m) {
     debugInfo('job worker got message:', m);
@@ -21,15 +24,14 @@ function hookMessage() {
 hookMessage();
 
 function run() {
-  var later = require('later');
-
-  var chromeDownloadSched = later.parse.text('every 6:00pm');
+  var chromeDownloadSched = later.parse.text('every 5 minutes');
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
 }
 
 function downloadNewChrome() {
   debugInfo('downloadNewChrome started');
+  downloader.download();
 }
 
 run();
