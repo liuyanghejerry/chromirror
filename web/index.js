@@ -8,6 +8,7 @@ var debugError = require('debug')('chromirror:web');
 debugError.log = console.error.bind(console);
 
 var path = require('path');
+var config = require('../config.js');
 
 debugInfo('web interface lunched.');
 
@@ -29,6 +30,10 @@ function run() {
 
   app.get('/', function(req, res) {
     res.send('hello world');
+  });
+
+  app.get('/download', function(req, res) {
+    res.download(config.STABLE_CHROME_PATH, config.STABLE_CHROME_NAME);
   });
 
   app.listen(3000);

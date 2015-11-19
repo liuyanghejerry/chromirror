@@ -23,7 +23,7 @@ hookMessage();
 function run() {
   var later = require('later');
 
-  var chromeDownloadSched = later.parse.text('every 10 seconds');
+  var chromeDownloadSched = later.parse.text('every 6:00pm');
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
 }
