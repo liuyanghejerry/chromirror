@@ -36,3 +36,5 @@ function download() {
     debugInfo('download started');
   });
 }
+
+download();

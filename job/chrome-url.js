@@ -1,3 +1,7 @@
+/**
+ * Reversed-engineered from https://www.google.com/chrome/browser/thankyou.html?standalone=1&system=true&platform=win&installdataindex=defaultbrowser
+ */
+
 var url = require('url');
 var urlJoin = require('url-join');
 var Qs = require('qs');
@@ -33,17 +37,15 @@ function buildDlPath(info, rootPath, execPath) {
   .replace(/\)/g, "%29")
   .replace(/\'/g, "%27");
 
-  var params = Qs.stringify(info).replace(/\=/gi, '%3D').replace('%26', '&');
+  var params = Qs.stringify(info).replace(/\=/gi, '%3D').replace(/\&/, '%26');
   return urlJoin(rootPath, '/tag/s/', params, execPath);
 }
 
 function genDownloadUrl() {
-  var iid = getIid();
-  // var iid = '11112222-3333-4444-5555-666677778888';
   var info = {
     // canary vs. chrome
     appguid:  false ? '{4ea16ac7-fd5a-47c3-875b-dbf4a2008c20}' : '{8A69D345-D564-463C-AFF1-A69D9E530F96}',
-    iid: iid,
+    iid: getIid(),
     appname: 'Google Chrome',
     needsadmin: 'true',
     lang: 'zh-CN',
@@ -54,7 +56,6 @@ function genDownloadUrl() {
 
   return {
     url: buildDlPath(info, genRootPath(), genExecutablePath()),
-    iid: iid
   };
 }
 
