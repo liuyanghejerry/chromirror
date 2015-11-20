@@ -10,6 +10,12 @@ debugError.log = console.error.bind(console);
 var child_process = require('child_process');
 var Q = require('q');
 
+var handles = {
+  webHandle: null,
+  jobHandle: null,
+};
+
+
 function lunchJobs() {
   debugInfo('lunching job runner...');
   var child = child_process.fork('./job/index.js');
@@ -71,29 +77,27 @@ function closeChild(child) {
   return deferred.promise;
 }
 
-function run() {
-  var webHandle = null;
-  var jobHandle = null;
+function run(handles) {
   setTimeout(function() {
-    webHandle = lunchWeb();
+    handles.webHandle = lunchWeb();
   }, 1000);
   setTimeout(function() {
-    jobHandle = lunchJobs();
+    handles.jobHandle = lunchJobs();
   }, 2000);
 
   process.on('SIGINT', function() {
     debugInfo('Got SIGINT, exiting...');
-    exit();
+    exit(handles);
   }).on('SIGTERM', function() {
     debugInfo('Got SIGTERM, exiting...');
-    exit();
+    exit(handles);
   });
 }
 
-function exit() {
+function exit(handles) {
   return Q.all([
-    closeChild.bind(null, webHandle),
-    closeChild.bind(null, jobHandle),
+    closeChild.bind(null, handles.webHandle),
+    closeChild.bind(null, handles.jobHandle),
   ])
   .catch(function(err) {
     debugError('cannot close child: ', err);
@@ -103,4 +107,4 @@ function exit() {
   });
 }
 
-run();
+run(handles);
