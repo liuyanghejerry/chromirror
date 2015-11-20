@@ -4,5 +4,6 @@ module.exports = {
 	DOWNLOAD_BASE_DIR: path.resolve(__dirname, './web/public/chrome/windows/stable/'),
 	STABLE_CHROME_PATH: path.resolve(__dirname, './web/public/chrome/windows/stable/ChromeStandaloneSetup.exe'),
 	STABLE_CHROME_NAME: 'ChromeStandaloneSetup.exe',
-	WEB_PORT: 3000
+	WEB_PORT: 3000,
+	SYNC_CYCLE: 'every 5 hours',
 };

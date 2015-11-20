@@ -11,6 +11,7 @@ debugInfo('job runner lunched.');
 
 var later = require('later');
 var downloader = require('./downloader.js');
+var config = require('../config.js');
 
 function hookMessage() {
   process.on('message', function(m) {
@@ -24,7 +25,7 @@ function hookMessage() {
 hookMessage();
 
 function run() {
-  var chromeDownloadSched = later.parse.text('every 5 minutes');
+  var chromeDownloadSched = later.parse.text(config.SYNC_CYCLE);
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
 }
