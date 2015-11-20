@@ -17,7 +17,8 @@ html, body {
 }
 
 .container>.title {
-  font-weight: normal;
+  font-family: 'Bad Script', cursive;
+  font-weight: 400;
   font-size: 48px;
   margin: 20px;
 }
