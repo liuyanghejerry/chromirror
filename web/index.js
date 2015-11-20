@@ -26,17 +26,13 @@ hookMessage();
 function run() {
   var express = require('express');
   var app = express();
-  express.static(path.join(__dirname, './public'));
-
-  app.get('/', function(req, res) {
-    res.send('hello world');
-  });
+  app.use(express.static(path.join(__dirname, './public')));
 
   app.get('/download', function(req, res) {
     res.download(config.STABLE_CHROME_PATH, config.STABLE_CHROME_NAME);
   });
 
-  app.listen(3000);
+  app.listen(config.WEB_PORT);
 }
 
 run();
