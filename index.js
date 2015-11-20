@@ -51,7 +51,7 @@ function lunchWeb() {
   return child;
 }
 
-function closeWeb(child) {
+function closeChild(child) {
   if (!(child && child.connected)) {
     return;
   }
@@ -61,8 +61,28 @@ function closeWeb(child) {
 }
 
 function run() {
-  setTimeout(lunchWeb, 1000);
-  setTimeout(lunchJobs, 2000);
+  var webHandle = null;
+  var jobHandle = null;
+  setTimeout(function() {
+    webHandle = lunchWeb();
+  }, 1000);
+  setTimeout(function() {
+    jobHandle = lunchJobs();
+  }, 2000);
+
+  process.on('SIGINT', function() {
+    debugInfo('Got SIGINT, exiting...');
+    exit();
+  }).on('SIGTERM', function() {
+    debugInfo('Got SIGTERM, exiting...');
+    exit();
+  });
+}
+
+function exit() {
+  closeChild(webHandle);
+  closeChild(jobHandle);
+  process.exit(0);
 }
 
 run();
