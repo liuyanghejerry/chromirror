@@ -1,8 +1,18 @@
 {
   "apps" : [
     {
-      "name": "chromirror",
-      "script": "index.js",
+      "name": "web - chromirror",
+      "script": "web/index.js",
+      "env": {
+      },
+      "env_production" : {
+        "NODE_ENV": "production"
+      },
+      "autorestart": true
+    },
+    {
+      "name": "job - chromirror",
+      "script": "job/index.js",
       "env": {
       },
       "env_production" : {
