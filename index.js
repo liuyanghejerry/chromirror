@@ -31,7 +31,9 @@ function lunchJobs() {
     }
 
     debugError('job runner is down with code %d. Re-spawning one.', code);
-    setTimeout(lunchJobs, 10*1000);
+    setTimeout(function() {
+      handles.jobHandle = lunchJobs();
+    }, 10*1000);
   });
 
   return child;
@@ -52,7 +54,9 @@ function lunchWeb() {
     }
 
     debugError('web interface is down with code %d. Re-spawning one.', code);
-    setTimeout(lunchWeb, 10*1000);
+    setTimeout(function() {
+      handles.webHandle = lunchWeb();
+    }, 10*1000);
   });
 
   return child;
