@@ -8,6 +8,7 @@ var debugError = require('debug')('chromirror:main');
 debugError.log = console.error.bind(console);
 
 var child_process = require('child_process');
+var Q = require('q');
 
 function lunchJobs() {
   debugInfo('lunching job runner...');
@@ -52,12 +53,22 @@ function lunchWeb() {
 }
 
 function closeChild(child) {
+  var deferred = Q.defer();
   if (!(child && child.connected)) {
-    return;
+    deferred.reject();
+    return deferred.promise;
   }
   child.send({
     command: 'close'
+  }, function(err) {
+    if (err) {
+      deferred.reject(err);
+      return;
+    }
+    deferred.resolve();
   });
+
+  return deferred.promise;
 }
 
 function run() {
@@ -80,9 +91,16 @@ function run() {
 }
 
 function exit() {
-  closeChild(webHandle);
-  closeChild(jobHandle);
-  process.exit(0);
+  return Q.all([
+    closeChild.bind(null, webHandle),
+    closeChild.bind(null, jobHandle),
+  ])
+  .catch(function(err) {
+    debugError('cannot close child: ', err);
+  })
+  .done(function() {
+    process.exit(0);
+  });
 }
 
 run();
