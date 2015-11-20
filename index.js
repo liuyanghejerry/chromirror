@@ -12,7 +12,7 @@ var child_process = require('child_process');
 function lunchJobs() {
   debugInfo('lunching job runner...');
   var child = child_process.fork('./job/index.js');
-  
+
   child
   .on('error', function() {
     debugError('cannot lunch job runner', arguments);
@@ -24,7 +24,7 @@ function lunchJobs() {
     }
 
     debugError('job runner is down with code %d. Re-spawning one.', code);
-    lunchWeb();
+    setTimeout(lunchJobs, 10*1000);
   });
 
   return child;
@@ -33,7 +33,7 @@ function lunchJobs() {
 function lunchWeb() {
   debugInfo('lunching web interface...');
   var child = child_process.fork('./web/index.js');
-  
+
   child
   .on('error', function() {
     debugError('cannot lunch web interface', arguments);
@@ -45,7 +45,7 @@ function lunchWeb() {
     }
 
     debugError('web interface is down with code %d. Re-spawning one.', code);
-    lunchWeb();
+    setTimeout(lunchWeb, 10*1000);
   });
 
   return child;
