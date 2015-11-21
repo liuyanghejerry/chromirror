@@ -32,7 +32,11 @@ function run() {
 
 function downloadNewChrome() {
   debugInfo('downloadNewChrome started');
-  downloader.download();
+  downloader.download()
+  .then(downloader.saveToFile)
+  .then(function() {
+    debugInfo('a new chrome has been downloaded.');
+  });
 }
 
 run();
