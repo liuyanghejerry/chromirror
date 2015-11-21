@@ -13,11 +13,9 @@ node index.js
 
 Generally, `http://localhost:3000/download` will serve an installer, and the installer should be updated every 5min.
 
-Example: http://chromirror.com/download
+Example: [http://chromirror.com/]. The picture of Chrome is stolen from Google's site.
 
 ### TODO
 
-* Atomic installer update.
 * More configs.
-* Friendly web interface.
 * More Chrome versions.
