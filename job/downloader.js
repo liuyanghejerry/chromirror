@@ -24,7 +24,6 @@ var STABLE_CHROME_PATH = config.STABLE_CHROME_PATH;
 
 function download() {
   var deferred = Q.defer();
-  debugInfo('directory ensured', DOWNLOAD_BASE_DIR);
   var tempFileName = genTempFileName();
   debugInfo('temp file name generated', tempFileName);
   var stream = fs.createWriteStream(tempFileName);
@@ -51,6 +50,7 @@ function saveToFile(tempFileName) {
   debugInfo('moving to destnation...');
   return Q.ninvoke(fs, 'ensureDir', DOWNLOAD_BASE_DIR)
   .then(function() {
+    debugInfo('directory ensured', DOWNLOAD_BASE_DIR);
     return Q.ninvoke(fs, 'move', tempFileName, STABLE_CHROME_PATH, {
       clobber: true
     });
