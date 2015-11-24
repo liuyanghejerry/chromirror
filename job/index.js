@@ -28,6 +28,7 @@ function run() {
   var chromeDownloadSched = later.parse.text(config.SYNC_CYCLE);
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
+  downloadNewChrome();
 }
 
 function downloadNewChrome() {
