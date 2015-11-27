@@ -13,6 +13,7 @@
   "author": "liuyanghejerry",
   "license": "ISC",
   "dependencies": {
+    "aliyun-sdk": "^1.6.3",
     "debug": "^2.2.0",
     "express": "^4.13.3",
     "fs-extra": "^0.26.2",

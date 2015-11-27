@@ -29,7 +29,7 @@ function run() {
   app.use(express.static(path.join(__dirname, './public')));
 
   app.get('/download', function(req, res) {
-    res.download(config.STABLE_CHROME_PATH, config.STABLE_CHROME_NAME);
+    res.redirect(config.REMOTE_STABLE_CHROME_PATH);
   });
 
   app.listen(config.WEB_PORT);

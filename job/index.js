@@ -11,6 +11,7 @@ debugInfo('job runner lunched.');
 
 var later = require('later');
 var downloader = require('./downloader.js');
+var uploader = require('./uploader.js');
 var config = require('../config.js');
 
 function hookMessage() {
@@ -28,12 +29,15 @@ function run() {
   var chromeDownloadSched = later.parse.text(config.SYNC_CYCLE);
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
-  downloadNewChrome();
+  downloadNewChrome()
+  .then(function() {
+    return uploader.upload(config.STABLE_CHROME_PATH);
+  });
 }
 
 function downloadNewChrome() {
   debugInfo('downloadNewChrome started');
-  downloader.download()
+  return downloader.download()
   .then(downloader.saveToFile)
   .then(function() {
     debugInfo('a new chrome has been downloaded.');

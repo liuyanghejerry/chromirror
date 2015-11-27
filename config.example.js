@@ -6,4 +6,14 @@ module.exports = {
 	STABLE_CHROME_NAME: 'ChromeStandaloneSetup.exe',
 	WEB_PORT: 3000,
 	SYNC_CYCLE: 'every 5 hours',
+
+	ACCESS_KEY_ID: '',
+	SECRET_ACCESS_KEY: '',
+	SECURITY_TOKEN: '',
+	ENDPOINT: '',
+	API_VERSION: '2013-10-15',
+
+	BUCKET: 'chromirror',
+	KEY: 'windows/stable/ChromeStandaloneSetup.exe',
+	REMOTE_STABLE_CHROME_PATH: ''
 };
