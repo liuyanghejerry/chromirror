@@ -29,7 +29,12 @@ function run() {
   app.use(express.static(path.join(__dirname, './public')));
 
   app.get('/download', function(req, res) {
-    res.redirect(config.REMOTE_STABLE_CHROME_PATH);
+    if (config.ENABLE_UPLOAD_TO_ALIYUN) {
+      res.redirect(config.REMOTE_STABLE_CHROME_PATH);
+      return;
+    }
+
+    res.download(config.STABLE_CHROME_PATH, config.STABLE_CHROME_NAME);
   });
 
   app.listen(config.WEB_PORT);

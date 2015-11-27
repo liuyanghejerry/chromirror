@@ -7,6 +7,8 @@ module.exports = {
 	WEB_PORT: 3000,
 	SYNC_CYCLE: 'every 5 hours',
 
+	ENABLE_UPLOAD_TO_ALIYUN: false,
+
 	ACCESS_KEY_ID: '',
 	SECRET_ACCESS_KEY: '',
 	SECURITY_TOKEN: '',
