@@ -31,6 +31,9 @@ function run() {
   later.date.localTime();
   downloadNewChrome()
   .then(function() {
+    if (!config.ENABLE_UPLOAD_TO_ALIYUN) {
+      return;
+    }
     return uploader.upload(config.STABLE_CHROME_PATH);
   });
 }
