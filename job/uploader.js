@@ -20,12 +20,12 @@ var oss = new ALY.OSS({
   apiVersion: config.API_VERSION,
 });
 
-function upload(filePath) {
-  Q.ninvoke(fs, 'readFile', filePath)
+function upload(filePath, key) {
+  return Q.ninvoke(fs, 'readFile', filePath)
   .then(function(data) {
     return Q.ninvoke(oss, 'putObject', {
       Bucket: config.BUCKET,
-      Key: config.KEY,  // 注意, Key 的值不能以 / 开头, 否则会返回错误.
+      Key: key,  // 注意, Key 的值不能以 / 开头, 否则会返回错误.
       Body: data,
       AccessControlAllowOrigin: '',
       ContentType: 'application/x-msdownload',
@@ -35,10 +35,26 @@ function upload(filePath) {
       ServerSideEncryption: 'AES256',
       Expires: null
     });
-  })
-  .then(function(data) {
-    debugInfo('uploaded: ', data);
   });
 }
 
-module.exports = {upload: upload};
+function uploadWindows() {
+  debugInfo('start to upload Windows binary onto Aliyun...');
+  return upload(config.STABLE_CHROME_PATH.WINDOWS, config.KEY.WINDOWS)
+  .then(function(data) {
+    debugInfo('Windows binary uploaded: ', data);
+  });
+}
+
+function uploadMac() {
+  debugInfo('start to upload Mac binary onto Aliyun...');
+  return upload(config.STABLE_CHROME_PATH.MAC, config.KEY.MAC)
+  .then(function(data) {
+    debugInfo('Mac binary uploaded: ', data);
+  });
+}
+
+module.exports = {
+  uploadWindows: uploadWindows,
+  uploadMac: uploadMac
+};

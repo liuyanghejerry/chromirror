@@ -15,21 +15,19 @@ var Q = require('q');
 
 var config = require('../config.js');
 
-var chromeUrlInfo = require('./chrome-url.js');
+var windowsUrlInfo = require('./chrome-url/').windows;
+var macUrlInfo = require('./chrome-url/').mac;
 
-debugInfo('chrome url generated:', chromeUrlInfo);
+debugInfo('chrome url generated:', windowsUrlInfo, macUrlInfo);
 
-var DOWNLOAD_BASE_DIR = config.DOWNLOAD_BASE_DIR;
-var STABLE_CHROME_PATH = config.STABLE_CHROME_PATH;
-
-function download() {
+function download(url) {
   var deferred = Q.defer();
   var tempFileName = genTempFileName();
   debugInfo('temp file name generated', tempFileName);
   var stream = fs.createWriteStream(tempFileName);
 
   superagent
-  .get(chromeUrlInfo.url)
+  .get(url)
   .redirects(10)
   .on('error', function(err) {
     debugError('cannot download ChromeStandaloneSetup, error:', err);
@@ -46,18 +44,34 @@ function download() {
   return deferred.promise;
 }
 
-function saveToFile(tempFileName) {
+function downloadWindows() {
+  return download(windowsUrlInfo.url);
+}
+
+function downloadMac() {
+  return download(macUrlInfo.url);
+}
+
+function saveToFile(tempFileName, dir, filepath) {
   debugInfo('moving to destnation...');
-  return Q.ninvoke(fs, 'ensureDir', DOWNLOAD_BASE_DIR)
+  return Q.ninvoke(fs, 'ensureDir', dir)
   .then(function() {
-    debugInfo('directory ensured', DOWNLOAD_BASE_DIR);
-    return Q.ninvoke(fs, 'move', tempFileName, STABLE_CHROME_PATH, {
+    debugInfo('directory ensured', dir);
+    return Q.ninvoke(fs, 'move', tempFileName, filepath, {
       clobber: true
     });
   })
   .then(function() {
     debugInfo('moving done.');
   });
+}
+
+function saveToFileForWindows(tempFileName) {
+  return saveToFile(tempFileName, config.DOWNLOAD_BASE_DIR.WINDOWS, config.STABLE_CHROME_PATH.WINDOWS);
+}
+
+function saveToFileForMac(tempFileName) {
+  return saveToFile(tempFileName, config.DOWNLOAD_BASE_DIR.MAC, config.STABLE_CHROME_PATH.MAC);
 }
 
 function genTempFileName() {
@@ -67,6 +81,8 @@ function genTempFileName() {
 }
 
 module.exports = {
-  download: download,
-  saveToFile: saveToFile,
+  downloadWindows: downloadWindows,
+  downloadMac: downloadMac,
+  saveToFileForWindows: saveToFileForWindows,
+  saveToFileForMac: saveToFileForMac,
 };

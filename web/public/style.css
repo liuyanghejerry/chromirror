@@ -21,6 +21,7 @@ html, body {
   font-weight: 400;
   font-size: 48px;
   margin: 20px;
+  text-align: center;
 }
 
 .container>.title>span {
@@ -36,16 +37,21 @@ html, body {
 .info-container {
   margin-left: 60px;
   align-self: center;
+  display: flex;
 }
 
-.info-container>.title {
+.info-container > .unit {
+  margin: 0 60px;
+}
+
+.info-container > .unit .title {
   font-family: arial, sans-serif;
   font-size: 40px;
   font-weight: 300;
   margin: 10px;
 }
 
-.info-container>.platform {
+.info-container > .unit .platform {
   margin: 10px;
   color: #777;
 }
@@ -66,4 +72,16 @@ html, body {
 
 .spacer {
   flex-grow: 2;
+}
+
+footer {
+  height: 60px;
+  line-height: 60px;
+  margin: 0 60px;
+  text-align: right;
+}
+
+footer a {
+  color: #0370ea;
+  text-decoration: none;
 }

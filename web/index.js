@@ -29,12 +29,25 @@ function run() {
   app.use(express.static(path.join(__dirname, './public')));
 
   app.get('/download', function(req, res) {
+    res.redirect('/download/windows');
+  });
+
+  app.get('/download/windows', function(req, res) {
     if (config.ENABLE_UPLOAD_TO_ALIYUN) {
-      res.redirect(config.REMOTE_STABLE_CHROME_PATH);
+      res.redirect(config.REMOTE_STABLE_CHROME_PATH.WINDOWS);
       return;
     }
 
-    res.download(config.STABLE_CHROME_PATH, config.STABLE_CHROME_NAME);
+    res.download(config.STABLE_CHROME_PATH.WINDOWS, config.STABLE_CHROME_NAME.WINDOWS);
+  });
+
+  app.get('/download/mac', function(req, res) {
+    if (config.ENABLE_UPLOAD_TO_ALIYUN) {
+      res.redirect(config.REMOTE_STABLE_CHROME_PATH.MAC);
+      return;
+    }
+
+    res.download(config.STABLE_CHROME_PATH.MAC, config.STABLE_CHROME_NAME.MAC);
   });
 
   app.listen(config.WEB_PORT);
