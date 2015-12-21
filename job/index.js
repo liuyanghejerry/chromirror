@@ -30,16 +30,7 @@ function run() {
   var chromeDownloadSched = later.parse.text(config.SYNC_CYCLE);
   var timer = later.setInterval(downloadNewChrome, chromeDownloadSched);
   later.date.localTime();
-  downloadNewChrome()
-  .then(function() {
-    if (!config.ENABLE_UPLOAD_TO_ALIYUN) {
-      return;
-    }
-    return Q.all([
-      uploader.uploadWindows(),
-      uploader.uploadMac(),
-    ]);
-  });
+  downloadNewChrome();
 }
 
 function downloadNewChrome() {
@@ -56,7 +47,16 @@ function downloadNewChrome() {
       debugInfo('a new Mac chrome has been downloaded.');
     }),
 
-  ]);
+  ])
+  .then(function() {
+    if (!config.ENABLE_UPLOAD_TO_ALIYUN) {
+      return;
+    }
+    return Q.all([
+      uploader.uploadWindows(),
+      uploader.uploadMac(),
+    ]);
+  });
 }
 
 run();
